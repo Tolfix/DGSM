@@ -2,7 +2,7 @@ import { MemeTemplate } from "../../Interface/Meme"
 
 const ThudMeme: Partial<MemeTemplate> = {
     id: "00001",
-    name: "thud_effect",
+    name: "thud",
     sound: "thud.mp3",
 }
 

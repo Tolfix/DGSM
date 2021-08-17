@@ -2,13 +2,15 @@ import { Router, Application } from "express";
 import { readdirSync } from "fs";
 import io from "./Main";
 import { MemesId, MemeTemplate } from "./Interface/Meme";
+import TwitchBot from "./Twitch/TwitchBot";
 
 export default class MemeHandler
 {
     protected server: Application;
     protected router: Router;
 
-    protected Memes = new Map<keyof MemesId, MemeTemplate>()
+    public Memes = new Map<keyof MemesId, MemeTemplate>();
+    public MemesName = new Map<MemeTemplate["name"], MemeTemplate>();
 
     constructor(server: Application) {
         this.server = server;
@@ -25,10 +27,10 @@ export default class MemeHandler
 
         this.router.get("/memes", (req, res) => {
             return res.send(this.Memes);
-        })
+        });
     }
 
-    private cacheMemes()
+    public cacheMemes()
     {
         let commandDir = ((__dirname.replace("\\build", "")).replace("/build", ""))+"/build/Memes";
         readdirSync(commandDir).forEach((dir) => {
@@ -38,6 +40,7 @@ export default class MemeHandler
                 const pull = (require(`${commandDir}/${dir}/${file}`)).default;
                 if (pull.id) {
                     this.Memes.set(pull.id, pull);
+                    this.MemesName.set(pull.name, pull)
                 }
                 continue;
             }
@@ -46,8 +49,10 @@ export default class MemeHandler
 
     public getMeme(memeId: keyof MemesId, custom?: MemeTemplate)
     {
-        let meme: any = this.Memes.get(memeId) ?? {};
-
+        let meme: any = this.Memes.get(memeId);
+        if(!meme)
+            meme = this.MemesName.get(memeId as string) ?? {};
+        
         if(custom?.image)
             meme.image = custom.image;
 
@@ -69,3 +74,4 @@ export default class MemeHandler
         return meme;
     }
 }
+

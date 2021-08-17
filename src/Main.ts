@@ -5,6 +5,7 @@ import expressLayout from "express-ejs-layouts";
 import { PORT, PoweredBy, Title } from "./Config";
 import SocketIo from "./Sockets";
 import MemeHandler from "./MemeHandler";
+import TwitchBot from "./Twitch/TwitchBot";
 
 const server = express();
 
@@ -30,8 +31,8 @@ server.get("/", (req, res) => {
     res.render("Main");
 });
 
-new MemeHandler(server);
-
+let m = new MemeHandler(server);
+new TwitchBot(m);
 const sv = server.listen(PORT);
 const io = (new SocketIo(sv)).io;
 export default io;

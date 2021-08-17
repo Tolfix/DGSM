@@ -27,7 +27,9 @@ function show_image(src, size, x, y) {
     var img = document.createElement("img");
     img.src = src;
     img.width = size;
-    img.style = `position: absolute; top: ${y}px; left: ${x}px`;
+    img.style = `position: absolute; top: ${y}px; left: ${x}px;`;
+    img.classList.add("fade");
+    img.classList.add("fade-in");
     let customId = Math.floor(Math.random() * 99999999) + 1;
     img.id = customId;
     document.body.appendChild(img);
@@ -36,6 +38,10 @@ function show_image(src, size, x, y) {
 
 function remove( el, speed ) {
     setTimeout(function() {
-        el.parentNode.removeChild(el);
+        el.classList.remove("fade-in");
+        el.classList.add("fade-out");
+        setInterval(() => {
+            el.parentNode.removeChild(el);
+        }, 3*1000);
     }, speed);
 }

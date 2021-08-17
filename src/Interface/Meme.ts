@@ -1,14 +1,15 @@
-import { Meme_Sus } from "./Sus";
-import { Meme_Thud } from "./Thud";
+import ThudMeme from "../Memes/General/Thud";
+import SusMeme from "../Memes/Sus/Sus";
 
 export interface MemesId
 {
-    "00001": Meme_Thud;
-    "00002": Meme_Sus;
+    "00001": typeof ThudMeme;
+    "00002": typeof SusMeme;
 }
 
 export interface MemeTemplate
 {
+    id: string;
     name: string;
     image: string;
     sound: string;

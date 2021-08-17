@@ -40,7 +40,7 @@ function remove( el, speed ) {
     setTimeout(function() {
         el.classList.remove("fade-in");
         el.classList.add("fade-out");
-        setInterval(() => {
+        setTimeout(() => {
             el.parentNode.removeChild(el);
         }, 3*1000);
     }, speed);

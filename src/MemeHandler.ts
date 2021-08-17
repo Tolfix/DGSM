@@ -19,8 +19,6 @@ export default class MemeHandler
         this.router.post("/:memeId", async (req, res) => {
             const memeId = req.params.memeId as keyof MemesId
             const body = req.body;
-            // console.log(body);
-            // Get our meme :D
             io.emit("mem", this.getMeme(memeId, body));
             return res.send(this.getMeme(memeId, body));
         });

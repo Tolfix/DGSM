@@ -12,10 +12,14 @@ server.use(expressLayout);
 server.set('view engine', 'ejs');
 server.use(express.static('public'));
 
+
 server.use(cors({
     origin: true,
     credentials: true
 }));
+
+server.use(express.urlencoded({ extended: true }));
+server.use(express.json())
 
 server.use((req, res, next) => {
     res.locals.title = Title;

@@ -5,7 +5,7 @@
 </p>
 
 # ✨ | DGSM
-... mem
+Used for live streams to add that funny epic xdd moment, when the sus is near. You activate a meme and it will be shown on the web page which can be used on the live stream.
 
 # 🔮 | Discord
 [![Discord](https://discord.com/api/guilds/833438897484595230/widget.png?style=banner4)](https://discord.tolfix.com/)

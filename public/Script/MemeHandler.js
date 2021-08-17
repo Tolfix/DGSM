@@ -7,7 +7,7 @@ socket.on("mem", (data) => {
     if(!y)
         y = Math.floor(Math.random() * 600);
     if(!x)
-        x = Math.floor(Math.random() * 1080);
+        x = Math.floor(Math.random() * 1280);
 
     if(!size)
         size = 64;

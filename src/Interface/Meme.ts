@@ -14,6 +14,7 @@ export interface MemeTemplate
     image: string;
     sound: string;
     size: number;
+    text: string;
     x: number;
     y: number;
 }

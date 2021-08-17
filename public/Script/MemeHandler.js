@@ -1,6 +1,6 @@
 const socket = new io()
 socket.on("mem", (data) => {
-    let { image, sound, name, y, x, size } = data;
+    let { image, sound, name, y, x, size, text } = data;
 
     console.log(`Activating ${name}`);
 
@@ -21,10 +21,28 @@ socket.on("mem", (data) => {
         let audio = new Audio(`/Sounds/${sound}`);
         audio.play();
     }
+    if(text)
+    {
+        show_text(text, x, y)
+    }
 });
 
-function show_image(src, size, x, y) {
-    var img = document.createElement("img");
+function show_text(text, x, y)
+{
+    let sourceText = document.createElement("div");
+    sourceText.innerText = text;
+    sourceText.style = `position: absolute; top: ${y}px; left: ${x}px; font-size: 3rem;`;
+    sourceText.classList.add("fade");
+    sourceText.classList.add("fade-in");
+    let customId = Math.floor(Math.random() * 99999999) + 1;
+    sourceText.id = customId;
+    document.body.appendChild(sourceText);
+    remove(document.getElementById(customId), 3*1000)
+}
+
+function show_image(src, size, x, y)
+{
+    let img = document.createElement("img");
     img.src = src;
     img.width = size;
     img.style = `position: absolute; top: ${y}px; left: ${x}px;`;

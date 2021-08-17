@@ -2,7 +2,6 @@ import { Router, Application } from "express";
 import { readdirSync } from "fs";
 import io from "./Main";
 import { MemesId, MemeTemplate } from "./Interface/Meme";
-import TwitchBot from "./Twitch/TwitchBot";
 
 export default class MemeHandler
 {
@@ -47,7 +46,7 @@ export default class MemeHandler
         });
     }
 
-    public getMeme(memeId: keyof MemesId, custom?: MemeTemplate)
+    public getMeme(memeId: keyof MemesId, custom?: Partial<MemeTemplate>)
     {
         let meme: any = this.Memes.get(memeId);
         if(!meme)
@@ -67,6 +66,9 @@ export default class MemeHandler
 
         if(custom?.y)
             meme.y = custom.y;
+
+        if(custom?.text)
+            meme.text = custom.text;
 
         if(!meme)
             return { image: null, sound: null };

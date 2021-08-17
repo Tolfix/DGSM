@@ -7,7 +7,6 @@ import MemeHandler from '../MemeHandler';
 export default class TwitchBot
 {
     private options = {
-        // options: { debug: true },
         connection: {
             reconnect: true,
             secure: true,
@@ -30,11 +29,14 @@ export default class TwitchBot
         client.connect();
         
         client.on('message', async (channel, userstate, message, self) => {
+            message = message.toLocaleLowerCase();
             if(this.Memes.MemesName.get(message as keyof MemesId))
                 io.emit("mem", this.Memes.getMeme(message as keyof MemesId));
 
-            // if(message.includes("gg"))
-
+            if(message.match(/gg/g))
+                io.emit("mem", this.Memes.getMeme("" as keyof MemesId, {
+                    text: `${userstate.username} fuck you :D`,
+                }))
         });
     }
 }

@@ -33,8 +33,6 @@ export default class MemeHandler
 
     public emit(memeId: keyof MemesId | string, data: Partial<MemeTemplate>)
     {
-        // TODO Add ratelimit
-        // @Tolfx
         if(this.rateLimit < this.rateLimitCount)
             return;
         this.rateLimitCount = this.rateLimitCount+1;

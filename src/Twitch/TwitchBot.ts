@@ -21,18 +21,20 @@ export default class TwitchBot
 
     private Memes: MemeHandler;
     private Replies: Array<[string, string]> = [];
+    private Actions: Array<[string, Partial<MemeTemplate>]> = [];
     
     constructor(memes: MemeHandler)
     {
         const client = tmijs.client(this.options);
         this.Memes = memes;
         this.cacheReplies();
+        this.cacheActions();
         client.connect();
 
         client.on('message', async (channel, userstate, message, self) => {
-            message = message.toLocaleLowerCase();
-            if(this.Memes.MemesName.get(message as keyof MemesId))
-                io.emit("mem", this.Memes.getMeme(message as keyof MemesId));
+            // message = message.toLocaleLowerCase();
+            // if(this.Memes.MemesName.get(message as keyof MemesId))
+            //     io.emit("mem", this.Memes.getMeme(message as keyof MemesId));
 
             for(const reply of this.Replies)
             {
@@ -40,6 +42,12 @@ export default class TwitchBot
                     io.emit("mem", this.Memes.getMeme("" as keyof MemesId, {
                         text: this.formatReply(reply[1], {channel, userstate, message, self}),
                     }));
+            }
+
+            for(const reply of this.Actions)
+            {
+                if(message.match(new RegExp(reply[0], "g")))
+                    io.emit("mem", this.Memes.getMeme("" as keyof MemesId, reply[1]));
             }
         });
     }
@@ -63,6 +71,23 @@ export default class TwitchBot
 
             const list = JSON.parse(reply);
             this.Replies.push(list);
+
+            count++;
+        }
+    }
+
+    public cacheActions()
+    {
+        let count = 1;
+        while(true)
+        {
+            let reply = process.env[`TWITCH_ACTION_${count}`];
+            if(!reply)
+                break;
+
+            const list = JSON.parse(reply);
+            console.log(list)
+            this.Actions.push(list);
 
             count++;
         }

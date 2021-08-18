@@ -25,7 +25,7 @@ export default class MemeHandler
         });
 
         this.router.get("/memes", (req, res) => {
-            return res.send(this.Memes);
+            return res.send(this.Memes.entries());
         });
     }
 

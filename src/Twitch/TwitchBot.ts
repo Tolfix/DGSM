@@ -1,7 +1,6 @@
 import * as tmijs from 'tmi.js';
 import { Twitch_Channels, Twitch_Password, Twitch_Username } from '../Config';
-import { MemesId, MemeTemplate } from '../Interface/Meme';
-import io from '../Main';
+import { MemeTemplate } from '../Interface/Meme';
 import MemeHandler from '../MemeHandler';
 
 export default class TwitchBot

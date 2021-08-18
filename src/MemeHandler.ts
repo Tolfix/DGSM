@@ -31,7 +31,7 @@ export default class MemeHandler
         });
 
         this.router.get("/memes", (req, res) => {
-            return res.render("Main", {
+            return res.render("Memes", {
                 ShowMemes: true,
                 Replies: this.Replies,
                 Actions: this.Actions

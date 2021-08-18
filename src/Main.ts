@@ -33,6 +33,7 @@ server.get("/", (req, res) => {
 
 let m = new MemeHandler(server);
 new TwitchBot(m);
+
 const sv = server.listen(PORT);
 const io = (new SocketIo(sv)).io;
 export default io;

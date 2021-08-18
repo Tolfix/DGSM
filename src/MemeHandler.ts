@@ -10,6 +10,8 @@ export default class MemeHandler
 
     public Memes = new Map<keyof MemesId, MemeTemplate>();
     public MemesName = new Map<MemeTemplate["name"], MemeTemplate>();
+    public Replies: Array<[string, string]> = [];
+    public Actions: Array<[string, Partial<MemeTemplate>]> = [];
     public rateLimit = parseInt(process.env.RATELIMIT ?? "10");
     public rateLimitCount = 0;
 
@@ -18,6 +20,8 @@ export default class MemeHandler
         this.router = Router();
         this.server.use("/", this.router);
         this.cacheMemes();
+        this.cacheReplies();
+        this.cacheActions();
 
         this.router.post("/:memeId", async (req, res) => {
             const memeId = req.params.memeId as keyof MemesId
@@ -27,7 +31,11 @@ export default class MemeHandler
         });
 
         this.router.get("/memes", (req, res) => {
-            return res.send(this.Memes.entries());
+            return res.render("Main", {
+                ShowMemes: true,
+                Replies: this.Replies,
+                Actions: this.Actions
+            });
         });
     }
 
@@ -40,6 +48,41 @@ export default class MemeHandler
             this.rateLimitCount = this.rateLimitCount-1;
         }, 5*1000);
         return io.emit("mem", this.getMeme(memeId, data));
+    }
+
+    public cacheReplies()
+    {
+        let count = 1;
+        while(true)
+        {
+            let reply = process.env[`TWITCH_REPLY_${count}`];
+            if(!reply)
+                break;
+
+            const list = JSON.parse(reply);
+            this.Replies.push(list);
+
+            count++;
+        }
+    }
+
+    public cacheActions()
+    {
+        let count = 1;
+        while(true)
+        {
+            let reply = process.env[`TWITCH_ACTION_${count}`];
+            if(!reply)
+                break;
+
+            reply = reply.replace(/{COLON}/g, ":");
+            
+            let list = JSON.parse(reply);
+
+            this.Actions.push(list);
+
+            count++;
+        }
     }
 
     public cacheMemes()

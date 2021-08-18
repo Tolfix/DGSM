@@ -85,8 +85,9 @@ export default class TwitchBot
             if(!reply)
                 break;
 
+            reply = reply.replace(/{COLON}/g, ":");
+            
             const list = JSON.parse(reply);
-            console.log(list)
             this.Actions.push(list);
 
             count++;

@@ -38,7 +38,7 @@ export default class TwitchBot
             {
                 if(message.match(new RegExp(reply[0], "g")))
                     io.emit("mem", this.Memes.getMeme("" as keyof MemesId, {
-                        text: this.formatReply(reply[0], {channel, userstate, message, self}),
+                        text: this.formatReply(reply[1], {channel, userstate, message, self}),
                     }));
             }
         });
@@ -47,7 +47,7 @@ export default class TwitchBot
     public formatReply(text: string, data: { channel: string, userstate: tmijs.ChatUserstate, message: string, self: boolean })
     {
         // Replace if user
-        text = text.replace(/{user}/g, data.userstate.username ?? "");
+        text = text.replace(/\{user\}/g, data.userstate.username ?? "user");
 
         return text;
     }
@@ -62,7 +62,6 @@ export default class TwitchBot
                 break;
 
             const list = JSON.parse(reply);
-            console.log(list)
             this.Replies.push(list);
 
             count++;

@@ -31,7 +31,7 @@ export default class TwitchBot
         client.connect();
 
         client.on('message', async (channel, userstate, message, self) => {
-
+            message = message.toLocaleLowerCase();
             for(let reply of this.Replies)
             {
                 if(message.match(new RegExp(reply[0], "g")))

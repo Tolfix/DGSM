@@ -19,6 +19,14 @@ COPY . ./
 
 RUN tsc -b
 
+ENV PORT ""
+ENV TITLE ""
+ENV POWERED ""
+
+ENV TWITCH_USERNAME ""
+ENV TWITCH_TOKEN ""
+ENV TWITCH_CHANNELS ""
+
 EXPOSE 56812
 
 CMD [ "node", "./build/Main.js" ]

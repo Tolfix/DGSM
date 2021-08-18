@@ -20,13 +20,20 @@ export default class MemeHandler
         this.router.post("/:memeId", async (req, res) => {
             const memeId = req.params.memeId as keyof MemesId
             const body = req.body;
-            io.emit("mem", this.getMeme(memeId, body));
+            this.emit("mem", this.getMeme(memeId, body));
             return res.send(this.getMeme(memeId, body));
         });
 
         this.router.get("/memes", (req, res) => {
             return res.send(this.Memes.entries());
         });
+    }
+
+    public emit(memeId: keyof MemesId | string, data: Partial<MemeTemplate>)
+    {
+        // TODO Add ratelimit
+        // @Tolfx
+        io.emit("mem", this.getMeme(memeId, data));
     }
 
     public cacheMemes()
@@ -46,9 +53,9 @@ export default class MemeHandler
         });
     }
 
-    public getMeme(memeId: keyof MemesId, custom?: Partial<MemeTemplate>)
+    public getMeme(memeId: keyof MemesId | string, custom?: Partial<MemeTemplate>)
     {
-        let meme: any = this.Memes.get(memeId);
+        let meme: any = this.Memes.get(memeId as keyof MemesId);
         if(!meme)
             meme = this.MemesName.get(memeId as string) ?? {};
         

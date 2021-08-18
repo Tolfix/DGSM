@@ -36,9 +36,9 @@ export default class TwitchBot
             for(let reply of this.Replies)
             {
                 if(message.match(new RegExp(reply[0], "g")))
-                    io.emit("mem", this.Memes.getMeme("" as keyof MemesId, {
+                    this.Memes.emit("", {
                         text: this.formatReply(reply[1], {channel, userstate, message, self}),
-                    }));
+                    });
             }
 
             for(let reply of this.Actions)
@@ -46,7 +46,7 @@ export default class TwitchBot
                 if(reply[1].text)
                     reply[1].text = this.formatReply(reply[1].text, {channel, userstate, message, self});
                 if(message.match(new RegExp(reply[0], "g")))
-                    io.emit("mem", this.Memes.getMeme("" as keyof MemesId, reply[1]));
+                    this.Memes.emit("", reply[1]);
             }
 
         });

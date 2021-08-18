@@ -10,6 +10,8 @@ export default class MemeHandler
 
     public Memes = new Map<keyof MemesId, MemeTemplate>();
     public MemesName = new Map<MemeTemplate["name"], MemeTemplate>();
+    public rateLimit = parseInt(process.env.RATELIMIT ?? "20");
+    public rateLimitCount = 0;
 
     constructor(server: Application) {
         this.server = server;
@@ -33,7 +35,14 @@ export default class MemeHandler
     {
         // TODO Add ratelimit
         // @Tolfx
-        io.emit("mem", this.getMeme(memeId, data));
+        console.log(this.rateLimitCount)
+        if(this.rateLimit < this.rateLimitCount)
+            return;
+        this.rateLimitCount = this.rateLimitCount+1;
+        setTimeout(() => {
+            this.rateLimitCount = this.rateLimitCount-1;
+        }, 5*1000);
+        return io.emit("mem", this.getMeme(memeId, data));
     }
 
     public cacheMemes()

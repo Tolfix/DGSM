@@ -33,7 +33,7 @@ function show_text(text, x, y)
 {
     let sourceText = document.createElement("div");
     sourceText.innerText = text;
-    sourceText.style = `position: absolute; top: ${y}px; left: ${x}px; font-size: 3rem;`;
+    sourceText.style = `position: absolute; top: ${y}px; left: ${x}px; font-size: 3rem; text-shadow: 2px 2px 5px #E2E5E7;`;
     sourceText.classList.add("fade");
     sourceText.classList.add("fade-in");
     let customId = Math.floor(Math.random() * 99999999) + 1;

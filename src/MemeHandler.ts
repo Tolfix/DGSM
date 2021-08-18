@@ -35,7 +35,6 @@ export default class MemeHandler
     {
         // TODO Add ratelimit
         // @Tolfx
-        console.log(this.rateLimitCount)
         if(this.rateLimit < this.rateLimitCount)
             return;
         this.rateLimitCount = this.rateLimitCount+1;

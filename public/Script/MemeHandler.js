@@ -2,6 +2,9 @@ const socket = new io()
 socket.on("mem", (data) => {
     let { image, sound, name, y, x, size, text } = data;
 
+    let isSoundUrl = sound.match(/http|https/g);
+    let isImageUrl = image.match(/http|https/g);
+
     console.log(`Activating ${name}`);
 
     if(!y)
@@ -14,11 +17,11 @@ socket.on("mem", (data) => {
 
     if(image)
     {
-        show_image("/Images/"+image, size, x, y)
+        show_image(isImageUrl ? image : "/Images/"+image, size, x, y)
     }
     if(sound)
     {
-        let audio = new Audio(`/Sounds/${sound}`);
+        let audio = new Audio(isSoundUrl ? sound : `/Sounds/${sound}`);
         audio.play();
     }
     if(text)

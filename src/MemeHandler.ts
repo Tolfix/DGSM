@@ -10,7 +10,7 @@ export default class MemeHandler
 
     public Memes = new Map<keyof MemesId, MemeTemplate>();
     public MemesName = new Map<MemeTemplate["name"], MemeTemplate>();
-    public rateLimit = parseInt(process.env.RATELIMIT ?? "20");
+    public rateLimit = parseInt(process.env.RATELIMIT ?? "10");
     public rateLimitCount = 0;
 
     constructor(server: Application) {

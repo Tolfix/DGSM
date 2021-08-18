@@ -32,11 +32,8 @@ export default class TwitchBot
         client.connect();
 
         client.on('message', async (channel, userstate, message, self) => {
-            // message = message.toLocaleLowerCase();
-            // if(this.Memes.MemesName.get(message as keyof MemesId))
-            //     io.emit("mem", this.Memes.getMeme(message as keyof MemesId));
 
-            for(const reply of this.Replies)
+            for(let reply of this.Replies)
             {
                 if(message.match(new RegExp(reply[0], "g")))
                     io.emit("mem", this.Memes.getMeme("" as keyof MemesId, {
@@ -44,11 +41,14 @@ export default class TwitchBot
                     }));
             }
 
-            for(const reply of this.Actions)
+            for(let reply of this.Actions)
             {
+                if(reply[1].text)
+                    reply[1].text = this.formatReply(reply[1].text, {channel, userstate, message, self});
                 if(message.match(new RegExp(reply[0], "g")))
                     io.emit("mem", this.Memes.getMeme("" as keyof MemesId, reply[1]));
             }
+
         });
     }
 
@@ -87,7 +87,8 @@ export default class TwitchBot
 
             reply = reply.replace(/{COLON}/g, ":");
             
-            const list = JSON.parse(reply);
+            let list = JSON.parse(reply);
+
             this.Actions.push(list);
 
             count++;

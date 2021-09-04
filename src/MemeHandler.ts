@@ -8,7 +8,7 @@ export default class MemeHandler
     protected server: Application;
     protected router: Router;
 
-    public MemeLimit = new Map<any, number>();
+    public MemeLimit = new Map<Partial<MemeTemplate>, number>();
     public Replies: Array<[string, string]> = [];
     public Actions: Array<[string, Partial<MemeTemplate>]> = [];
     public rateLimit = parseInt(process.env.RATELIMIT ?? "10");
@@ -47,6 +47,29 @@ export default class MemeHandler
         setTimeout(() => {
             this.rateLimitCount = this.rateLimitCount-1;
         }, 5*1000);
+
+        if(data.limit && data.limit_time)
+        {
+            let limit = this.MemeLimit.get(data);
+            if(typeof limit === "undefined")
+            {
+                this.MemeLimit.set(data, data.limit);
+                limit = this.MemeLimit.get(data);
+            }
+            if(limit)
+            if(limit !== 0)
+            {
+                let temppLimit = limit;
+                let tempData = data;
+                this.MemeLimit.set(tempData, temppLimit-1);
+                // console.log(this.MemeLimit.get(tempData))
+                setTimeout(() => {
+                    this.MemeLimit.set(tempData, temppLimit+1);
+                }, data.limit_time*1000);
+            }
+            if(limit === 0)
+                return;
+        }
 
         return io.emit("mem", this.createMeme(data));
     }

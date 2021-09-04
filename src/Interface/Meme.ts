@@ -8,4 +8,6 @@ export interface MemeTemplate
     text: string;
     x: number;
     y: number;
+    limit: number;
+    limit_time: number;
 }

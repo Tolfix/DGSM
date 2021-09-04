@@ -1,6 +1,5 @@
 import * as tmijs from 'tmi.js';
 import { Twitch_Channels, Twitch_Password, Twitch_Username } from '../Config';
-import { MemeTemplate } from '../Interface/Meme';
 import MemeHandler from '../MemeHandler';
 
 export default class TwitchBot
@@ -32,7 +31,7 @@ export default class TwitchBot
             for(let reply of this.Memes.Replies)
             {
                 if(message.match(new RegExp(reply[0], "g")))
-                    this.Memes.emit("", {
+                    this.Memes.emit({
                         text: this.formatReply(reply[1], {channel, userstate, message, self}),
                     });
             }
@@ -42,7 +41,7 @@ export default class TwitchBot
                 if(reply[1].text)
                     reply[1].text = this.formatReply(reply[1].text, {channel, userstate, message, self});
                 if(message.match(new RegExp(reply[0], "g")))
-                    this.Memes.emit("", reply[1]);
+                    this.Memes.emit(reply[1]);
             }
 
         });

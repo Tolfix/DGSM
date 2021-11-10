@@ -9,3 +9,7 @@ Used for live streams to add that funny epic xdd moment, when the sus is near. Y
 
 # 🔮 | Discord
 [![Discord](https://discord.com/api/guilds/833438897484595230/widget.png?style=banner4)](https://discord.tolfix.com/)
+
+# ⚙ | Tolfix
+**Tolfix** is a `company` focusing about `IT`, `Development` and `Networking`, we drive to help others with their `problems` when it comes to `IT` and love contributing to others.
+Want to find more information about us you can visit us at [`https://tolfix.com/`](https://tolfix.com/).
